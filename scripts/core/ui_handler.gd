@@ -2,15 +2,26 @@ class_name UI_Handler extends Node2D
 
 enum UnitCommands {
 	NONE,
+	WALK,
+	STOP,
 	CLIMB,
 	PARACHUTE,
 	BUILD,
 	DESTROY,
+	SACRIFICE,
 }
 @export var unit_commands: UnitCommands
 var current_command : UnitCommands = UnitCommands.NONE
 
 ##### UI BUTTON EVENTS #####
+func _on_btn_walk_pressed() -> void:
+	current_command = UnitCommands.WALK
+	print("Command: ", UnitCommands.keys()[current_command])
+
+func _on_btn_stop_pressed() -> void:
+	current_command = UnitCommands.STOP
+	print("Command: ", UnitCommands.keys()[current_command])
+
 func _on_btn_climb_pressed() -> void:
 	current_command = UnitCommands.CLIMB
 	print("Command: ", UnitCommands.keys()[current_command])
@@ -25,6 +36,10 @@ func _on_btn_build_pressed() -> void:
 
 func _on_btn_destroy_pressed() -> void:
 	current_command = UnitCommands.DESTROY
+	print("Command: ", UnitCommands.keys()[current_command])
+
+func _on_btn_sacrifice_pressed() -> void:
+	current_command = UnitCommands.SACRIFICE
 	print("Command: ", UnitCommands.keys()[current_command])
 
 

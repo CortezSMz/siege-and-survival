@@ -13,7 +13,7 @@ func _ready() -> void:
 func spawn() -> void:
 	if walker_scene and spawn_point:
 		var human_walker = walker_scene.instantiate() as HumanWalker
-		get_tree().current_scene.add_child(human_walker)
+		spawn_point.add_child(human_walker)
 		human_walker.global_position = spawn_point.global_position
 		human_walker.add_to_group("walkers")
 

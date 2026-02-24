@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cfyh05uns3tds"]
 
-[ext_resource type="Script" uid="uid://do6dyp31s12hq" path="res://scripts/human_walker.gd" id="1_d5f1j"]
+[ext_resource type="Script" uid="uid://do6dyp31s12hq" path="res://scripts/human_walker.gd" id="1_g2rux"]
 [ext_resource type="Texture2D" uid="uid://0lu1ro3b7hoi" path="res://assets/sprites/races/human/walker/HMMIdleBare.png" id="1_mayv3"]
 [ext_resource type="Texture2D" uid="uid://cfa7ake06lr6l" path="res://assets/sprites/races/human/walker/HMMJumpBare.png" id="2_denma"]
 [ext_resource type="Texture2D" uid="uid://yqxoo08pu7dh" path="res://assets/sprites/races/human/walker/HMMRunBare.png" id="3_c7jhf"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://dqeuhjk3xf4xf" path="res://scenes/components/input_component.tscn" id="7_3odiv"]
 [ext_resource type="PackedScene" uid="uid://bl1njoma5wyqx" path="res://scenes/components/raycast_component.tscn" id="7_owd54"]
 [ext_resource type="PackedScene" uid="uid://7iswquvtufgl" path="res://scenes/components/climb_component.tscn" id="8_abcj1"]
+[ext_resource type="PackedScene" uid="uid://byrwnaxtmdg35" path="res://scenes/components/stop_component.tscn" id="8_plrf6"]
+[ext_resource type="PackedScene" uid="uid://6aj0rgkeg7tp" path="res://scenes/components/parachute_component.tscn" id="9_plrf6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_trceg"]
 atlas = ExtResource("1_mayv3")
@@ -491,7 +493,7 @@ transitions = ["Start", "walk", SubResource("AnimationNodeStateMachineTransition
 z_index = 5
 collision_layer = 2
 input_pickable = true
-script = ExtResource("1_d5f1j")
+script = ExtResource("1_g2rux")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=756783718]
 position = Vector2(0, -15)
@@ -506,14 +508,29 @@ position = Vector2(0, -12)
 shape = SubResource("CapsuleShape2D_mayv3")
 
 [node name="InputComponent" parent="." unique_id=629209973 node_paths=PackedStringArray("head_label") instance=ExtResource("7_3odiv")]
+unique_name_in_owner = true
 head_label = NodePath("../Label")
 
 [node name="WalkerComponent" parent="." unique_id=1176275030 node_paths=PackedStringArray("body", "sprite") instance=ExtResource("6_fyoxm")]
+unique_name_in_owner = true
 body = NodePath("..")
 sprite = NodePath("../AnimatedSprite2D")
+speed = 40.0
 
-[node name="ClimbComponent" parent="." unique_id=1959145439 node_paths=PackedStringArray("body") instance=ExtResource("8_abcj1")]
+[node name="StopComponent" parent="." unique_id=1364594845 node_paths=PackedStringArray("body") instance=ExtResource("8_plrf6")]
+unique_name_in_owner = true
 body = NodePath("..")
+
+[node name="ClimbComponent" parent="." unique_id=1959145439 node_paths=PackedStringArray("body", "walker_component") instance=ExtResource("8_abcj1")]
+unique_name_in_owner = true
+body = NodePath("..")
+walker_component = NodePath("../WalkerComponent")
+
+[node name="ParachuteComponent" parent="." unique_id=1504413853 node_paths=PackedStringArray("body", "walker_component", "raycast_component") instance=ExtResource("9_plrf6")]
+unique_name_in_owner = true
+body = NodePath("..")
+walker_component = NodePath("../WalkerComponent")
+raycast_component = NodePath("../RaycastComponent")
 
 [node name="RaycastComponent" parent="." unique_id=1206438048 node_paths=PackedStringArray("rc_right", "rc_left", "rc_bottom_right", "rc_bottom_left", "rc_top_right", "rc_top_left", "rc_top") instance=ExtResource("7_owd54")]
 rc_right = NodePath("RayCastRight")
@@ -525,32 +542,37 @@ rc_top_left = NodePath("RayCastTopLeft")
 rc_top = NodePath("RayCastTop")
 
 [node name="RayCastRight" type="RayCast2D" parent="RaycastComponent" unique_id=1528215266]
+unique_name_in_owner = true
 position = Vector2(0, -12)
 target_position = Vector2(5, 0)
 
 [node name="RayCastLeft" type="RayCast2D" parent="RaycastComponent" unique_id=1119685255]
+unique_name_in_owner = true
 position = Vector2(0, -12)
 target_position = Vector2(-5, 0)
 
 [node name="RayCastBottomRight" type="RayCast2D" parent="RaycastComponent" unique_id=1759822335]
-position = Vector2(0, 5)
+unique_name_in_owner = true
 target_position = Vector2(5, 0)
 
 [node name="RayCastBottomLeft" type="RayCast2D" parent="RaycastComponent" unique_id=1525911087]
-position = Vector2(0, 5)
+unique_name_in_owner = true
 target_position = Vector2(-5, 0)
 
 [node name="RayCastTopRight" type="RayCast2D" parent="RaycastComponent" unique_id=697039218]
+unique_name_in_owner = true
 position = Vector2(7, -24)
-target_position = Vector2(0, -13)
+target_position = Vector2(0, -2)
 
 [node name="RayCastTopLeft" type="RayCast2D" parent="RaycastComponent" unique_id=1463805544]
+unique_name_in_owner = true
 position = Vector2(-7, -24)
-target_position = Vector2(0, -13)
+target_position = Vector2(0, -2)
 
 [node name="RayCastTop" type="RayCast2D" parent="RaycastComponent" unique_id=1735825449]
+unique_name_in_owner = true
 position = Vector2(0, -24)
-target_position = Vector2(0, -13)
+target_position = Vector2(0, -2)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1301857361]
 libraries/ = SubResource("AnimationLibrary_abcj1")
@@ -577,5 +599,10 @@ theme_override_font_sizes/font_size = 10
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="command_executing" from="InputComponent" to="." method="_on_input_component_command_executing"]
+[connection signal="finished_blocking" from="StopComponent" to="." method="_on_stop_component_finished_blocking"]
+[connection signal="finished_blocking" from="StopComponent" to="InputComponent" method="_on_stop_component_finished_blocking"]
 [connection signal="finished_climbing" from="ClimbComponent" to="." method="_on_climb_component_finished_climbing"]
 [connection signal="finished_climbing" from="ClimbComponent" to="InputComponent" method="_on_climb_component_finished_climbing"]
+[connection signal="finished_parachuting" from="ParachuteComponent" to="." method="_on_parachute_component_finished_parachuting"]
+[connection signal="finished_parachuting" from="ParachuteComponent" to="InputComponent" method="_on_parachute_component_finished_parachuting"]

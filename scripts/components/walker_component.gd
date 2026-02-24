@@ -20,7 +20,7 @@ func tick(delta: float) -> void:
 	if body.is_on_floor():
 		body.velocity.x = direction * speed
 	else:
-		body.velocity.x = move_toward(body.velocity.x, 0, 10)
+		body.velocity.x = move_toward(body.velocity.x, 0, 2.5)
 
 func update_direction(_direction: int) -> void:
 	direction = _direction
