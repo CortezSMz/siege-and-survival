@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://cs4xngxrnsc2h"]
+
+[ext_resource type="Script" uid="uid://bkjpksekf3s0p" path="res://scripts/core/ui_handler.gd" id="1_brnxe"]
+
+[node name="UI_Handler" type="Node2D" unique_id=1405240840]
+script = ExtResource("1_brnxe")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=189124169]
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer" unique_id=977854297]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -153.5
+offset_top = -63.0
+offset_right = 153.5
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="BtnClimb" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=115688306]
+layout_mode = 2
+text = "CLIMB"
+
+[node name="BtnParachute" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=1188409253]
+layout_mode = 2
+text = "PARACHUTE"
+
+[node name="BtnBuild" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=298802065]
+layout_mode = 2
+text = "BUILD"
+
+[node name="BtnDestroy" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=190049454]
+layout_mode = 2
+text = "DESTROY"
+
+[connection signal="pressed" from="CanvasLayer/HBoxContainer2/BtnClimb" to="." method="_on_btn_climb_pressed"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer2/BtnParachute" to="." method="_on_btn_parachute_pressed"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer2/BtnBuild" to="." method="_on_btn_build_pressed"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer2/BtnDestroy" to="." method="_on_btn_destroy_pressed"]

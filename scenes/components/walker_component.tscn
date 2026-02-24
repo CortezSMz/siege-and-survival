@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cpuulvo23casl"]
+
+[ext_resource type="Script" uid="uid://fmletjh8sl2r" path="res://scripts/components/walker_component.gd" id="1_084vl"]
+
+[node name="WalkerComponent" type="Node2D" unique_id=1176275030]
+script = ExtResource("1_084vl")

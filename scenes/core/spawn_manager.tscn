@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dot5w2go6tpwg"]
+
+[ext_resource type="Script" uid="uid://c2wj2ojutbkfu" path="res://scripts/core/spawn_manager.gd" id="1_ltx4y"]
+
+[node name="SpawnManager" type="Node" unique_id=232829973]
+script = ExtResource("1_ltx4y")
+
+[node name="Timer" type="Timer" parent="." unique_id=155155610]
+process_callback = 0
+wait_time = 1.5
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_spawn_timer_timeout"]
