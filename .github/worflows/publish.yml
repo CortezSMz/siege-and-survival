@@ -1,0 +1,30 @@
+name: "Godot Web Deploy"
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.6.1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Create Build Folder
+        run: mkdir -v -p build/web
+
+      - name: Godot Web Export
+        run: godot --headless --export-debug "Web" build/web/index.html
+
+      - name: Push to Deploy Branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build/web
+          branch: deploy
+          clean: true
