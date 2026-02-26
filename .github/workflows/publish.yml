@@ -4,11 +4,14 @@ on:
     branches:
       - main
 
+env:
+  GODOT_VERSION: "4.6.1"
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.6.1
+      image: barichello/godot-ci:${GODOT_VERSION}
 
     steps:
       - name: Checkout
