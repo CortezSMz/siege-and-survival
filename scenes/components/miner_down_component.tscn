@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://nnlsveo5n6jk"]
+
+[ext_resource type="Script" uid="uid://dgmxfy0jxfr64" path="res://scripts/components/miner_down_component.gd" id="1_dlt2i"]
+
+[node name="MinerDownComponent" type="Node" unique_id=1679773306]
+script = ExtResource("1_dlt2i")

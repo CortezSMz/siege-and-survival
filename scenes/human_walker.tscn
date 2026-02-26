@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://6aj0rgkeg7tp" path="res://scenes/components/parachute_component.tscn" id="9_plrf6"]
 [ext_resource type="PackedScene" uid="uid://bjpfimpfkurxj" path="res://scenes/components/builder_sides_component.tscn" id="10_cxa03"]
 [ext_resource type="PackedScene" uid="uid://ntknpcqxcq42" path="res://scenes/components/miner_sides_component.tscn" id="10_kr46j"]
+[ext_resource type="PackedScene" uid="uid://nnlsveo5n6jk" path="res://scenes/components/miner_down_component.tscn" id="11_iams2"]
 [ext_resource type="Script" uid="uid://5pkjlmwen7vp" path="res://resources/BuilderBrickData.gd" id="11_tfgdc"]
 [ext_resource type="PackedScene" uid="uid://du3ww0s8lv35i" path="res://scenes/components/exploder_component.tscn" id="12_b811a"]
 [ext_resource type="Script" uid="uid://bnojtrkw1dyj4" path="res://resources/ExploderData.gd" id="13_kr46j"]
@@ -570,6 +571,10 @@ unique_name_in_owner = true
 body = NodePath("..")
 walker_component = NodePath("../WalkerComponent")
 
+[node name="MinerDownComponent" parent="." unique_id=1679773306 node_paths=PackedStringArray("body") instance=ExtResource("11_iams2")]
+unique_name_in_owner = true
+body = NodePath("..")
+
 [node name="BuilderSidesComponent" parent="." unique_id=36267222 node_paths=PackedStringArray("body", "walker_component", "ray_cast_down_right", "ray_cast_down_left") instance=ExtResource("10_cxa03")]
 unique_name_in_owner = true
 body = NodePath("..")
@@ -681,4 +686,5 @@ collision_mask = 5
 [connection signal="finished_climbing" from="ClimberComponent" to="." method="_on_climber_component_finished_climbing"]
 [connection signal="finished_floating" from="FloaterComponent" to="." method="_on_floater_component_finished_floating"]
 [connection signal="finished_mining" from="MinerSidesComponent" to="." method="_on_miner_sides_component_finished_mining"]
+[connection signal="finished_mining" from="MinerDownComponent" to="." method="_on_miner_down_component_finished_mining"]
 [connection signal="finished_building" from="BuilderSidesComponent" to="." method="_on_builder_sides_component_finished_building"]

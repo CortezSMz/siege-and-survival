@@ -139,7 +139,6 @@ text = "SIDES"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-disabled = true
 text = "DOWN"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2/HBoxContainer2" unique_id=1873371582]
@@ -168,10 +167,12 @@ offset_bottom = 31.0
 grow_horizontal = 0
 size_flags_horizontal = 8
 size_flags_vertical = 8
+folded = true
 title = "Debug"
 title_alignment = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Debug" unique_id=1443002881]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 
