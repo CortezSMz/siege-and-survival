@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ntknpcqxcq42"]
+
+[ext_resource type="Script" uid="uid://cogo0lmd63pws" path="res://scripts/components/miner_sides_component.gd" id="1_w5pji"]
+
+[node name="MinerSidesComponent" type="Node" unique_id=478169238]
+script = ExtResource("1_w5pji")

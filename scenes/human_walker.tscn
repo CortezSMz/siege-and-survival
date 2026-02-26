@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://byrwnaxtmdg35" path="res://scenes/components/stop_component.tscn" id="8_plrf6"]
 [ext_resource type="PackedScene" uid="uid://6aj0rgkeg7tp" path="res://scenes/components/parachute_component.tscn" id="9_plrf6"]
 [ext_resource type="PackedScene" uid="uid://bjpfimpfkurxj" path="res://scenes/components/builder_sides_component.tscn" id="10_cxa03"]
+[ext_resource type="PackedScene" uid="uid://ntknpcqxcq42" path="res://scenes/components/miner_sides_component.tscn" id="10_kr46j"]
 [ext_resource type="Script" uid="uid://5pkjlmwen7vp" path="res://resources/BuilderBrickData.gd" id="11_tfgdc"]
 [ext_resource type="PackedScene" uid="uid://du3ww0s8lv35i" path="res://scenes/components/exploder_component.tscn" id="12_b811a"]
 [ext_resource type="Script" uid="uid://bnojtrkw1dyj4" path="res://resources/ExploderData.gd" id="13_kr46j"]
@@ -564,6 +565,11 @@ unique_name_in_owner = true
 body = NodePath("..")
 walker_component = NodePath("../WalkerComponent")
 
+[node name="MinerSidesComponent" parent="." unique_id=478169238 node_paths=PackedStringArray("body", "walker_component") instance=ExtResource("10_kr46j")]
+unique_name_in_owner = true
+body = NodePath("..")
+walker_component = NodePath("../WalkerComponent")
+
 [node name="BuilderSidesComponent" parent="." unique_id=36267222 node_paths=PackedStringArray("body", "walker_component", "ray_cast_down_right", "ray_cast_down_left") instance=ExtResource("10_cxa03")]
 unique_name_in_owner = true
 body = NodePath("..")
@@ -579,11 +585,13 @@ walker_component = NodePath("../WalkerComponent")
 exploder_data = SubResource("Resource_iams2")
 head_label = NodePath("../Label")
 
-[node name="RaycastComponent" parent="." unique_id=1206438048 node_paths=PackedStringArray("rc_top", "rc_head_right", "rc_head_left", "rc_right", "rc_left", "rc_knee_right", "rc_knee_left", "rc_feet_right", "rc_feet_left", "rc_down_right", "rc_down_left") instance=ExtResource("7_owd54")]
+[node name="RaycastComponent" parent="." unique_id=1206438048 node_paths=PackedStringArray("rc_top", "rc_head_right", "rc_head_left", "rc_torso_right", "rc_torso_left", "rc_right", "rc_left", "rc_knee_right", "rc_knee_left", "rc_feet_right", "rc_feet_left", "rc_down_right", "rc_down_left") instance=ExtResource("7_owd54")]
 unique_name_in_owner = true
 rc_top = NodePath("RayCastTop")
 rc_head_right = NodePath("RayCastHeadRight")
 rc_head_left = NodePath("RayCastHeadLeft")
+rc_torso_right = NodePath("RayCastTorsoRight")
+rc_torso_left = NodePath("RayCastTorsoLeft")
 rc_right = NodePath("RayCastRight")
 rc_left = NodePath("RayCastLeft")
 rc_knee_right = NodePath("RayCastKneeRight")
@@ -608,6 +616,18 @@ collision_mask = 5
 [node name="RayCastHeadLeft" type="RayCast2D" parent="RaycastComponent" unique_id=1313839730]
 unique_name_in_owner = true
 position = Vector2(0, -28)
+target_position = Vector2(-6, 0)
+collision_mask = 5
+
+[node name="RayCastTorsoRight" type="RayCast2D" parent="RaycastComponent" unique_id=607105754]
+unique_name_in_owner = true
+position = Vector2(0, -20)
+target_position = Vector2(6, 0)
+collision_mask = 5
+
+[node name="RayCastTorsoLeft" type="RayCast2D" parent="RaycastComponent" unique_id=645059255]
+unique_name_in_owner = true
+position = Vector2(0, -20)
 target_position = Vector2(-6, 0)
 collision_mask = 5
 
@@ -660,4 +680,5 @@ collision_mask = 5
 [connection signal="finished_blocking" from="BlockerComponent" to="." method="_on_blocker_component_finished_blocking"]
 [connection signal="finished_climbing" from="ClimberComponent" to="." method="_on_climber_component_finished_climbing"]
 [connection signal="finished_floating" from="FloaterComponent" to="." method="_on_floater_component_finished_floating"]
+[connection signal="finished_mining" from="MinerSidesComponent" to="." method="_on_miner_sides_component_finished_mining"]
 [connection signal="finished_building" from="BuilderSidesComponent" to="." method="_on_builder_sides_component_finished_building"]

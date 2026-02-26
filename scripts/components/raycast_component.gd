@@ -3,6 +3,8 @@ class_name RaycastComponent extends Node2D
 @export var rc_top: RayCast2D
 @export var rc_head_right: RayCast2D
 @export var rc_head_left: RayCast2D
+@export var rc_torso_right: RayCast2D
+@export var rc_torso_left: RayCast2D
 @export var rc_right: RayCast2D
 @export var rc_left: RayCast2D
 @export var rc_knee_right: RayCast2D
@@ -16,9 +18,9 @@ class_name RaycastComponent extends Node2D
 func get_direction(old_direction) -> int:
 	var direction = old_direction
 
-	if rc_right.is_colliding() or rc_head_right.is_colliding():
+	if rc_right.is_colliding() or rc_torso_right.is_colliding() or rc_head_right.is_colliding():
 		direction = -1
-	elif rc_left.is_colliding() or rc_head_left.is_colliding():
+	elif rc_left.is_colliding() or rc_torso_left.is_colliding() or rc_head_left.is_colliding():
 		direction = 1
 
 	return direction

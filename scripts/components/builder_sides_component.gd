@@ -38,7 +38,7 @@ func execute(delta: float):
 		# Distance travaled since last platform
 		var distance_traveled = abs(body.global_position.x - start_x)
 
-		# Stop if it hits a obstacle and changes direction
+		# Stop if it hits an obstacle and changes direction
 		if walker_component.direction != initial_direction:
 			_finish_building()
 			return
@@ -48,7 +48,7 @@ func execute(delta: float):
 			_finalize_step()
 		return
 
-	# Searching for edge fase
+	# Searching for edge phase
 	if not is_building:
 		walker_component.execute(delta)
 		
@@ -57,7 +57,7 @@ func execute(delta: float):
 			initial_direction = walker_component.direction
 			body.velocity = Vector2.ZERO
 			
-	# Building fase
+	# Building phase
 	else:
 		build_timer += delta
 		if build_timer >= brick_data.build_time:
@@ -115,6 +115,7 @@ func _finalize_step():
 	
 	# If no bricks left or not ad edge, finish_building
 	if bricks_left <= 0 or not _is_at_edge():
+		walker_component.update_direction(-initial_direction)
 		_finish_building()
 
 

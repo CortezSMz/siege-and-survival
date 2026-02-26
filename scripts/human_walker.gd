@@ -14,7 +14,7 @@ class_name HumanWalker extends CharacterBody2D
 	UI_Handler.UnitCommands.BUILDER_SIDES: %BuilderSidesComponent,
 	# UI_Handler.UnitCommands.BUILDER_DIAG_UP: %BuilderDiagUpComponent,
 	# UI_Handler.UnitCommands.BUILDER_DIAG_DOWN: %BuilderDiagDownComponent,
-	# UI_Handler.UnitCommands.MINER_SIDES: %MinerSiderComponent,
+	UI_Handler.UnitCommands.MINER_SIDES: %MinerSidesComponent,
 	# UI_Handler.UnitCommands.MINER_DOWN: %MinerDownComponent,
 	# UI_Handler.UnitCommands.MINER_DIAG_UP: %MinerDiagUpComponent,
 	# UI_Handler.UnitCommands.MINER_DIAG_DOWN: %MinerDiagDownComponent,
@@ -70,4 +70,7 @@ func _on_blocker_component_finished_blocking() -> void:
 	_handle_command.call_deferred(UI_Handler.UnitCommands.WALKER)
 
 func _on_builder_sides_component_finished_building() -> void:
+	_handle_command.call_deferred(UI_Handler.UnitCommands.WALKER)
+
+func _on_miner_sides_component_finished_mining() -> void:
 	_handle_command.call_deferred(UI_Handler.UnitCommands.WALKER)
