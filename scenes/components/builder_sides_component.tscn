@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bjpfimpfkurxj"]
+
+[ext_resource type="Script" uid="uid://nqgi45rgjubh" path="res://scripts/components/builder_sides_component.gd" id="1_w4dlu"]
+
+[node name="BuilderSidesComponent" type="Node" unique_id=36267222]
+script = ExtResource("1_w4dlu")

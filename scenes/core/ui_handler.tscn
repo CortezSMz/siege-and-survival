@@ -7,51 +7,277 @@ script = ExtResource("1_brnxe")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=189124169]
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer" unique_id=977854297]
+[node name="CommandsMenu" type="HBoxContainer" parent="CanvasLayer" unique_id=977854297]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -153.5
+offset_left = -253.5
 offset_top = -63.0
-offset_right = 153.5
+offset_right = 253.5
+offset_bottom = -18.0
 grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
 
-[node name="BtnWalk" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=1224183186]
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/CommandsMenu" unique_id=1390643728]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 0
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasLayer/CommandsMenu/MarginContainer3" unique_id=457405080]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/CommandsMenu/MarginContainer3/VBoxContainer3" unique_id=1454979112]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "MOVEMENT"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CommandsMenu/MarginContainer3/VBoxContainer3" unique_id=2037414227]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BtnWalker" type="Button" parent="CanvasLayer/CommandsMenu/MarginContainer3/VBoxContainer3/HBoxContainer" unique_id=1224183186]
+unique_name_in_owner = true
 layout_mode = 2
 text = "WALK"
 
-[node name="BtnStop" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=1627803077]
+[node name="BtnBlocker" type="Button" parent="CanvasLayer/CommandsMenu/MarginContainer3/VBoxContainer3/HBoxContainer" unique_id=1627803077]
+unique_name_in_owner = true
 layout_mode = 2
-text = "STOP"
+text = "BLOCK"
 
-[node name="BtnClimb" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=115688306]
+[node name="BtnClimber" type="Button" parent="CanvasLayer/CommandsMenu/MarginContainer3/VBoxContainer3/HBoxContainer" unique_id=115688306]
+unique_name_in_owner = true
 layout_mode = 2
 text = "CLIMB"
 
-[node name="BtnParachute" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=1188409253]
+[node name="BtnFloater" type="Button" parent="CanvasLayer/CommandsMenu/MarginContainer3/VBoxContainer3/HBoxContainer" unique_id=1188409253]
+unique_name_in_owner = true
 layout_mode = 2
-text = "PARACHUTE"
+text = "FLOAT"
 
-[node name="BtnBuild" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=298802065]
+[node name="BtnExploder" type="Button" parent="CanvasLayer/CommandsMenu/MarginContainer3/VBoxContainer3/HBoxContainer" unique_id=1941940313]
+unique_name_in_owner = true
 layout_mode = 2
+text = "EXPLODE"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/CommandsMenu" unique_id=762359593]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CommandsMenu/MarginContainer2" unique_id=484504757]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/CommandsMenu/MarginContainer2/VBoxContainer" unique_id=1552498367]
+layout_mode = 2
+size_flags_horizontal = 4
 text = "BUILD"
 
-[node name="BtnDestroy" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=190049454]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CommandsMenu/MarginContainer2/VBoxContainer" unique_id=1369442359]
 layout_mode = 2
-text = "DESTROY"
 
-[node name="BtnSacrifice" type="Button" parent="CanvasLayer/HBoxContainer2" unique_id=1941940313]
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/CommandsMenu/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1980565280]
 layout_mode = 2
-text = "SACRIFICE"
 
-[connection signal="pressed" from="CanvasLayer/HBoxContainer2/BtnWalk" to="." method="_on_btn_walk_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer2/BtnStop" to="." method="_on_btn_stop_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer2/BtnClimb" to="." method="_on_btn_climb_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer2/BtnParachute" to="." method="_on_btn_parachute_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer2/BtnBuild" to="." method="_on_btn_build_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer2/BtnDestroy" to="." method="_on_btn_destroy_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer2/BtnSacrifice" to="." method="_on_btn_sacrifice_pressed"]
+[node name="BtnBuilderSides" type="Button" parent="CanvasLayer/CommandsMenu/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=298802065]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "SIDES"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CommandsMenu/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=771622914]
+layout_mode = 2
+
+[node name="BtnBuilderDiagUp" type="Button" parent="CanvasLayer/CommandsMenu/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1430072640]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "DIAG-UP"
+
+[node name="BtnBuilderDiagDown" type="Button" parent="CanvasLayer/CommandsMenu/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=2032112237]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "DIAG-DOWN"
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CommandsMenu" unique_id=2113961503]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/CommandsMenu/MarginContainer" unique_id=1706063150]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2" unique_id=462843426]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "MINE"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2" unique_id=1963748675]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2/HBoxContainer2" unique_id=1633979065]
+layout_mode = 2
+
+[node name="BtnMinerSides" type="Button" parent="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2/HBoxContainer2/VBoxContainer" unique_id=1172628624]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "SIDES"
+
+[node name="BtnMinerDown" type="Button" parent="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2/HBoxContainer2/VBoxContainer" unique_id=190049454]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "DOWN"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2/HBoxContainer2" unique_id=1873371582]
+layout_mode = 2
+
+[node name="BtnMinerDiagUp" type="Button" parent="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2/HBoxContainer2/VBoxContainer2" unique_id=1917916994]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "DIAG-UP"
+
+[node name="BtnMinerDiagDown" type="Button" parent="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2/HBoxContainer2/VBoxContainer2" unique_id=255195156]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "DIAG-DOWN"
+
+[node name="Debug" type="FoldableContainer" parent="CanvasLayer" unique_id=1332659383]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -128.0
+offset_bottom = 31.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+title = "Debug"
+title_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Debug" unique_id=1443002881]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="BtnResetLevel" type="Button" parent="CanvasLayer/Debug/VBoxContainer" unique_id=553072819]
+layout_mode = 2
+text = "Reset Level"
+
+[node name="BtnClearWalkers" type="Button" parent="CanvasLayer/Debug/VBoxContainer" unique_id=1554412369]
+layout_mode = 2
+text = "Clear Walkers"
+
+[node name="CollisionBox" type="HBoxContainer" parent="CanvasLayer/Debug/VBoxContainer" unique_id=2064334207]
+layout_mode = 2
+
+[node name="ToggleCollisions" type="CheckButton" parent="CanvasLayer/Debug/VBoxContainer/CollisionBox" unique_id=1598436704]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="CanvasLayer/Debug/VBoxContainer/CollisionBox" unique_id=271355399]
+layout_mode = 2
+text = "Collisions"
+
+[node name="Grid" type="HBoxContainer" parent="CanvasLayer/Debug/VBoxContainer" unique_id=2061688192]
+layout_mode = 2
+
+[node name="ToggleGrid" type="CheckButton" parent="CanvasLayer/Debug/VBoxContainer/Grid" unique_id=52083045]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Debug/VBoxContainer/Grid" unique_id=851281150]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Grid"
+
+[node name="Walker States" type="HBoxContainer" parent="CanvasLayer/Debug/VBoxContainer" unique_id=1271215358]
+layout_mode = 2
+
+[node name="ToggleShowStates" type="CheckButton" parent="CanvasLayer/Debug/VBoxContainer/Walker States" unique_id=1262228902]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Debug/VBoxContainer/Walker States" unique_id=2012203623]
+layout_mode = 2
+text = "Show States"
+
+[node name="Coords" type="HBoxContainer" parent="CanvasLayer/Debug/VBoxContainer" unique_id=1402204781]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+
+[node name="LblTileCoords" type="Label" parent="CanvasLayer/Debug/VBoxContainer/Coords" unique_id=1441406524]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "-"
+
+[node name="LblTileCoords2" type="Label" parent="CanvasLayer/Debug/VBoxContainer/Coords" unique_id=749538831]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "(x, y)"
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/Debug/VBoxContainer" unique_id=573920527]
+layout_mode = 2
+
+[node name="GameSpeed" type="VBoxContainer" parent="CanvasLayer/Debug/VBoxContainer" unique_id=48170074]
+layout_mode = 2
+
+[node name="SliderEditSpeed" type="HSlider" parent="CanvasLayer/Debug/VBoxContainer/GameSpeed" unique_id=240302340]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 15.0
+step = 0.1
+value = 1.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Debug/VBoxContainer/GameSpeed" unique_id=1459021476]
+layout_mode = 2
+
+[node name="BtnResetGameSpeed" type="Button" parent="CanvasLayer/Debug/VBoxContainer/GameSpeed/HBoxContainer" unique_id=553369326]
+layout_mode = 2
+text = "⟳"
+
+[node name="GameSpeedLabel" type="Label" parent="CanvasLayer/Debug/VBoxContainer/GameSpeed/HBoxContainer" unique_id=739517279]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Speed"
+
+[connection signal="pressed" from="CanvasLayer/CommandsMenu/MarginContainer3/VBoxContainer3/HBoxContainer/BtnWalker" to="." method="_on_btn_walker_pressed"]
+[connection signal="pressed" from="CanvasLayer/CommandsMenu/MarginContainer3/VBoxContainer3/HBoxContainer/BtnBlocker" to="." method="_on_btn_blocker_pressed"]
+[connection signal="pressed" from="CanvasLayer/CommandsMenu/MarginContainer3/VBoxContainer3/HBoxContainer/BtnClimber" to="." method="_on_btn_climber_pressed"]
+[connection signal="pressed" from="CanvasLayer/CommandsMenu/MarginContainer3/VBoxContainer3/HBoxContainer/BtnFloater" to="." method="_on_btn_floater_pressed"]
+[connection signal="pressed" from="CanvasLayer/CommandsMenu/MarginContainer3/VBoxContainer3/HBoxContainer/BtnExploder" to="." method="_on_btn_exploder_pressed"]
+[connection signal="pressed" from="CanvasLayer/CommandsMenu/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer2/BtnBuilderSides" to="." method="_on_btn_builder_sides_pressed"]
+[connection signal="pressed" from="CanvasLayer/CommandsMenu/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/BtnBuilderDiagUp" to="." method="_on_btn_builder_diag_up_pressed"]
+[connection signal="pressed" from="CanvasLayer/CommandsMenu/MarginContainer2/VBoxContainer/HBoxContainer/VBoxContainer/BtnBuilderDiagDown" to="." method="_on_btn_builder_diag_down_pressed"]
+[connection signal="pressed" from="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/BtnMinerSides" to="." method="_on_btn_miner_sides_pressed"]
+[connection signal="pressed" from="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2/HBoxContainer2/VBoxContainer/BtnMinerDown" to="." method="_on_btn_miner_down_pressed"]
+[connection signal="pressed" from="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2/HBoxContainer2/VBoxContainer2/BtnMinerDiagUp" to="." method="_on_btn_miner_diag_up_pressed"]
+[connection signal="pressed" from="CanvasLayer/CommandsMenu/MarginContainer/VBoxContainer2/HBoxContainer2/VBoxContainer2/BtnMinerDiagDown" to="." method="_on_btn_miner_diag_down_pressed"]
+[connection signal="pressed" from="CanvasLayer/Debug/VBoxContainer/BtnResetLevel" to="." method="_on_btn_reset_level_pressed"]
+[connection signal="pressed" from="CanvasLayer/Debug/VBoxContainer/BtnClearWalkers" to="." method="_on_btn_clear_walkers_pressed"]
+[connection signal="toggled" from="CanvasLayer/Debug/VBoxContainer/CollisionBox/ToggleCollisions" to="." method="_on_toggle_collisions_toggled"]
+[connection signal="toggled" from="CanvasLayer/Debug/VBoxContainer/Grid/ToggleGrid" to="." method="_on_toggle_grid_toggled"]
+[connection signal="toggled" from="CanvasLayer/Debug/VBoxContainer/Walker States/ToggleShowStates" to="." method="_on_toggle_show_states_toggled"]
+[connection signal="value_changed" from="CanvasLayer/Debug/VBoxContainer/GameSpeed/SliderEditSpeed" to="." method="_on_edit_speed_value_changed"]
+[connection signal="pressed" from="CanvasLayer/Debug/VBoxContainer/GameSpeed/HBoxContainer/BtnResetGameSpeed" to="." method="_on_btn_reset_game_speed_pressed"]

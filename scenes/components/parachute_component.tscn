@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://6aj0rgkeg7tp"]
 
-[ext_resource type="Script" uid="uid://s8rugdq1vs04" path="res://scripts/components/parachute_component.gd" id="1_thbmf"]
+[ext_resource type="Script" uid="uid://s8rugdq1vs04" path="res://scripts/components/floater_component.gd" id="1_thbmf"]
 
-[node name="ParachuteComponent" type="Node" unique_id=1504413853]
+[node name="FloaterComponent" type="Node" unique_id=1504413853]
 script = ExtResource("1_thbmf")

@@ -1,6 +1,5 @@
 extends Node
 
-# Arraste a cena do seu Walker (32x32) para aqui no Inspetor
 @export var walker_scene: PackedScene
 @export var spawn_point: Marker2D
 

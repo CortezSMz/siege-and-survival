@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://byrwnaxtmdg35"]
 
-[ext_resource type="Script" uid="uid://ck85ul2b72yu8" path="res://scripts/components/stop_component.gd" id="1_ecrb2"]
+[ext_resource type="Script" uid="uid://ck85ul2b72yu8" path="res://scripts/components/blocker_component.gd" id="1_ecrb2"]
 
 [node name="StopComponent" type="Node" unique_id=1364594845]
 script = ExtResource("1_ecrb2")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://co0nia65onmt0"
-path="res://.godot/imported/TX Tileset Ground.png-d3a1a90a1e139ac49e1017d719d9b140.ctex"
+uid="uid://qioa67ffsv7e"
+path="res://.godot/imported/tileset_props.png-3f2a670f2192515c1f4d91cfb38a0094.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/environments/village/TX Tileset Ground.png"
-dest_files=["res://.godot/imported/TX Tileset Ground.png-d3a1a90a1e139ac49e1017d719d9b140.ctex"]
+source_file="res://assets/sprites/environments/village/tileset_props.png"
+dest_files=["res://.godot/imported/tileset_props.png-3f2a670f2192515c1f4d91cfb38a0094.ctex"]
 
 [params]
 

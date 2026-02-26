@@ -6,11 +6,14 @@
 [ext_resource type="Texture2D" uid="uid://yqxoo08pu7dh" path="res://assets/sprites/races/human/walker/HMMRunBare.png" id="3_c7jhf"]
 [ext_resource type="Texture2D" uid="uid://beeog0qxy2l7w" path="res://assets/sprites/races/human/walker/HMMWalkBare.png" id="4_u0vvy"]
 [ext_resource type="PackedScene" uid="uid://cpuulvo23casl" path="res://scenes/components/walker_component.tscn" id="6_fyoxm"]
-[ext_resource type="PackedScene" uid="uid://dqeuhjk3xf4xf" path="res://scenes/components/input_component.tscn" id="7_3odiv"]
 [ext_resource type="PackedScene" uid="uid://bl1njoma5wyqx" path="res://scenes/components/raycast_component.tscn" id="7_owd54"]
 [ext_resource type="PackedScene" uid="uid://7iswquvtufgl" path="res://scenes/components/climb_component.tscn" id="8_abcj1"]
 [ext_resource type="PackedScene" uid="uid://byrwnaxtmdg35" path="res://scenes/components/stop_component.tscn" id="8_plrf6"]
 [ext_resource type="PackedScene" uid="uid://6aj0rgkeg7tp" path="res://scenes/components/parachute_component.tscn" id="9_plrf6"]
+[ext_resource type="PackedScene" uid="uid://bjpfimpfkurxj" path="res://scenes/components/builder_sides_component.tscn" id="10_cxa03"]
+[ext_resource type="Script" uid="uid://5pkjlmwen7vp" path="res://resources/BuilderBrickData.gd" id="11_tfgdc"]
+[ext_resource type="PackedScene" uid="uid://du3ww0s8lv35i" path="res://scenes/components/exploder_component.tscn" id="12_b811a"]
+[ext_resource type="Script" uid="uid://bnojtrkw1dyj4" path="res://resources/ExploderData.gd" id="13_kr46j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_trceg"]
 atlas = ExtResource("1_mayv3")
@@ -253,8 +256,7 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mayv3"]
-radius = 3.0
-height = 24.0
+radius = 5.0
 
 [sub_resource type="Animation" id="Animation_fd2p4"]
 length = 0.001
@@ -489,6 +491,16 @@ states/walk/node = SubResource("AnimationNodeBlendSpace1D_g2rux")
 states/walk/position = Vector2(454, 173)
 transitions = ["Start", "walk", SubResource("AnimationNodeStateMachineTransition_fd2p4")]
 
+[sub_resource type="Resource" id="Resource_b811a"]
+script = ExtResource("11_tfgdc")
+atlas_coords = Vector2i(5, 60)
+source_id = 1
+metadata/_custom_type_script = "uid://5pkjlmwen7vp"
+
+[sub_resource type="Resource" id="Resource_iams2"]
+script = ExtResource("13_kr46j")
+metadata/_custom_type_script = "uid://bnojtrkw1dyj4"
+
 [node name="HumanWalker" type="CharacterBody2D" unique_id=2067324447]
 z_index = 5
 collision_layer = 2
@@ -496,83 +508,16 @@ input_pickable = true
 script = ExtResource("1_g2rux")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=756783718]
-position = Vector2(0, -15)
-scale = Vector2(0.125, 0.125)
+position = Vector2(1, -19)
+scale = Vector2(0.155, 0.155)
 sprite_frames = SubResource("SpriteFrames_txyw0")
 animation = &"idle"
 autoplay = "idle"
 offset = Vector2(5, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=606766621]
-position = Vector2(0, -12)
+position = Vector2(0, -15)
 shape = SubResource("CapsuleShape2D_mayv3")
-
-[node name="InputComponent" parent="." unique_id=629209973 node_paths=PackedStringArray("head_label") instance=ExtResource("7_3odiv")]
-unique_name_in_owner = true
-head_label = NodePath("../Label")
-
-[node name="WalkerComponent" parent="." unique_id=1176275030 node_paths=PackedStringArray("body", "sprite") instance=ExtResource("6_fyoxm")]
-unique_name_in_owner = true
-body = NodePath("..")
-sprite = NodePath("../AnimatedSprite2D")
-speed = 40.0
-
-[node name="StopComponent" parent="." unique_id=1364594845 node_paths=PackedStringArray("body") instance=ExtResource("8_plrf6")]
-unique_name_in_owner = true
-body = NodePath("..")
-
-[node name="ClimbComponent" parent="." unique_id=1959145439 node_paths=PackedStringArray("body", "walker_component") instance=ExtResource("8_abcj1")]
-unique_name_in_owner = true
-body = NodePath("..")
-walker_component = NodePath("../WalkerComponent")
-
-[node name="ParachuteComponent" parent="." unique_id=1504413853 node_paths=PackedStringArray("body", "walker_component", "raycast_component") instance=ExtResource("9_plrf6")]
-unique_name_in_owner = true
-body = NodePath("..")
-walker_component = NodePath("../WalkerComponent")
-raycast_component = NodePath("../RaycastComponent")
-
-[node name="RaycastComponent" parent="." unique_id=1206438048 node_paths=PackedStringArray("rc_right", "rc_left", "rc_bottom_right", "rc_bottom_left", "rc_top_right", "rc_top_left", "rc_top") instance=ExtResource("7_owd54")]
-rc_right = NodePath("RayCastRight")
-rc_left = NodePath("RayCastLeft")
-rc_bottom_right = NodePath("RayCastBottomRight")
-rc_bottom_left = NodePath("RayCastBottomLeft")
-rc_top_right = NodePath("RayCastTopRight")
-rc_top_left = NodePath("RayCastTopLeft")
-rc_top = NodePath("RayCastTop")
-
-[node name="RayCastRight" type="RayCast2D" parent="RaycastComponent" unique_id=1528215266]
-unique_name_in_owner = true
-position = Vector2(0, -12)
-target_position = Vector2(5, 0)
-
-[node name="RayCastLeft" type="RayCast2D" parent="RaycastComponent" unique_id=1119685255]
-unique_name_in_owner = true
-position = Vector2(0, -12)
-target_position = Vector2(-5, 0)
-
-[node name="RayCastBottomRight" type="RayCast2D" parent="RaycastComponent" unique_id=1759822335]
-unique_name_in_owner = true
-target_position = Vector2(5, 0)
-
-[node name="RayCastBottomLeft" type="RayCast2D" parent="RaycastComponent" unique_id=1525911087]
-unique_name_in_owner = true
-target_position = Vector2(-5, 0)
-
-[node name="RayCastTopRight" type="RayCast2D" parent="RaycastComponent" unique_id=697039218]
-unique_name_in_owner = true
-position = Vector2(7, -24)
-target_position = Vector2(0, -2)
-
-[node name="RayCastTopLeft" type="RayCast2D" parent="RaycastComponent" unique_id=1463805544]
-unique_name_in_owner = true
-position = Vector2(-7, -24)
-target_position = Vector2(0, -2)
-
-[node name="RayCastTop" type="RayCast2D" parent="RaycastComponent" unique_id=1735825449]
-unique_name_in_owner = true
-position = Vector2(0, -24)
-target_position = Vector2(0, -2)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1301857361]
 libraries/ = SubResource("AnimationLibrary_abcj1")
@@ -588,10 +533,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -42.0
-offset_right = 15.0
-offset_bottom = -19.0
+offset_left = -23.0
+offset_top = -49.0
+offset_right = 23.0
+offset_bottom = -26.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -599,10 +544,120 @@ theme_override_font_sizes/font_size = 10
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="command_executing" from="InputComponent" to="." method="_on_input_component_command_executing"]
-[connection signal="finished_blocking" from="StopComponent" to="." method="_on_stop_component_finished_blocking"]
-[connection signal="finished_blocking" from="StopComponent" to="InputComponent" method="_on_stop_component_finished_blocking"]
-[connection signal="finished_climbing" from="ClimbComponent" to="." method="_on_climb_component_finished_climbing"]
-[connection signal="finished_climbing" from="ClimbComponent" to="InputComponent" method="_on_climb_component_finished_climbing"]
-[connection signal="finished_parachuting" from="ParachuteComponent" to="." method="_on_parachute_component_finished_parachuting"]
-[connection signal="finished_parachuting" from="ParachuteComponent" to="InputComponent" method="_on_parachute_component_finished_parachuting"]
+[node name="WalkerComponent" parent="." unique_id=1176275030 node_paths=PackedStringArray("body") instance=ExtResource("6_fyoxm")]
+unique_name_in_owner = true
+body = NodePath("..")
+speed = 40.0
+
+[node name="BlockerComponent" parent="." unique_id=1364594845 node_paths=PackedStringArray("body", "walker_component") instance=ExtResource("8_plrf6")]
+unique_name_in_owner = true
+body = NodePath("..")
+walker_component = NodePath("../WalkerComponent")
+
+[node name="ClimberComponent" parent="." unique_id=1959145439 node_paths=PackedStringArray("body", "walker_component") instance=ExtResource("8_abcj1")]
+unique_name_in_owner = true
+body = NodePath("..")
+walker_component = NodePath("../WalkerComponent")
+
+[node name="FloaterComponent" parent="." unique_id=1504413853 node_paths=PackedStringArray("body", "walker_component") instance=ExtResource("9_plrf6")]
+unique_name_in_owner = true
+body = NodePath("..")
+walker_component = NodePath("../WalkerComponent")
+
+[node name="BuilderSidesComponent" parent="." unique_id=36267222 node_paths=PackedStringArray("body", "walker_component", "ray_cast_down_right", "ray_cast_down_left") instance=ExtResource("10_cxa03")]
+unique_name_in_owner = true
+body = NodePath("..")
+walker_component = NodePath("../WalkerComponent")
+brick_data = SubResource("Resource_b811a")
+ray_cast_down_right = NodePath("../RaycastComponent/RayCastDownRight")
+ray_cast_down_left = NodePath("../RaycastComponent/RayCastDownLeft")
+
+[node name="ExploderComponent" parent="." unique_id=2028305549 node_paths=PackedStringArray("body", "walker_component", "head_label") instance=ExtResource("12_b811a")]
+unique_name_in_owner = true
+body = NodePath("..")
+walker_component = NodePath("../WalkerComponent")
+exploder_data = SubResource("Resource_iams2")
+head_label = NodePath("../Label")
+
+[node name="RaycastComponent" parent="." unique_id=1206438048 node_paths=PackedStringArray("rc_top", "rc_head_right", "rc_head_left", "rc_right", "rc_left", "rc_knee_right", "rc_knee_left", "rc_feet_right", "rc_feet_left", "rc_down_right", "rc_down_left") instance=ExtResource("7_owd54")]
+unique_name_in_owner = true
+rc_top = NodePath("RayCastTop")
+rc_head_right = NodePath("RayCastHeadRight")
+rc_head_left = NodePath("RayCastHeadLeft")
+rc_right = NodePath("RayCastRight")
+rc_left = NodePath("RayCastLeft")
+rc_knee_right = NodePath("RayCastKneeRight")
+rc_knee_left = NodePath("RayCastKneeLeft")
+rc_feet_right = NodePath("RayCastFeetRight")
+rc_feet_left = NodePath("RayCastFeetLeft")
+rc_down_right = NodePath("RayCastDownRight")
+rc_down_left = NodePath("RayCastDownLeft")
+
+[node name="RayCastTop" type="RayCast2D" parent="RaycastComponent" unique_id=1735825449]
+unique_name_in_owner = true
+position = Vector2(0, -28)
+target_position = Vector2(0, -5)
+collision_mask = 5
+
+[node name="RayCastHeadRight" type="RayCast2D" parent="RaycastComponent" unique_id=1008582713]
+unique_name_in_owner = true
+position = Vector2(0, -28)
+target_position = Vector2(6, 0)
+collision_mask = 5
+
+[node name="RayCastHeadLeft" type="RayCast2D" parent="RaycastComponent" unique_id=1313839730]
+unique_name_in_owner = true
+position = Vector2(0, -28)
+target_position = Vector2(-6, 0)
+collision_mask = 5
+
+[node name="RayCastRight" type="RayCast2D" parent="RaycastComponent" unique_id=1528215266]
+unique_name_in_owner = true
+position = Vector2(0, -12)
+target_position = Vector2(6, 0)
+collision_mask = 5
+
+[node name="RayCastLeft" type="RayCast2D" parent="RaycastComponent" unique_id=1119685255]
+unique_name_in_owner = true
+position = Vector2(0, -12)
+target_position = Vector2(-6, 0)
+collision_mask = 5
+
+[node name="RayCastKneeRight" type="RayCast2D" parent="RaycastComponent" unique_id=1908363203]
+unique_name_in_owner = true
+position = Vector2(0, -4)
+target_position = Vector2(6, 0)
+collision_mask = 5
+
+[node name="RayCastKneeLeft" type="RayCast2D" parent="RaycastComponent" unique_id=418200492]
+unique_name_in_owner = true
+position = Vector2(0, -4)
+target_position = Vector2(-6, 0)
+collision_mask = 5
+
+[node name="RayCastFeetRight" type="RayCast2D" parent="RaycastComponent" unique_id=1759822335]
+unique_name_in_owner = true
+target_position = Vector2(6, 0)
+collision_mask = 5
+
+[node name="RayCastFeetLeft" type="RayCast2D" parent="RaycastComponent" unique_id=1525911087]
+unique_name_in_owner = true
+target_position = Vector2(-6, 0)
+collision_mask = 5
+
+[node name="RayCastDownRight" type="RayCast2D" parent="RaycastComponent" unique_id=1392389258]
+unique_name_in_owner = true
+position = Vector2(6, -2)
+target_position = Vector2(0, 12)
+collision_mask = 5
+
+[node name="RayCastDownLeft" type="RayCast2D" parent="RaycastComponent" unique_id=662098050]
+unique_name_in_owner = true
+position = Vector2(-6, -2)
+target_position = Vector2(0, 12)
+collision_mask = 5
+
+[connection signal="finished_blocking" from="BlockerComponent" to="." method="_on_blocker_component_finished_blocking"]
+[connection signal="finished_climbing" from="ClimberComponent" to="." method="_on_climber_component_finished_climbing"]
+[connection signal="finished_floating" from="FloaterComponent" to="." method="_on_floater_component_finished_floating"]
+[connection signal="finished_building" from="BuilderSidesComponent" to="." method="_on_builder_sides_component_finished_building"]
