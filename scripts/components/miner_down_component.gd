@@ -4,7 +4,11 @@ signal finished_mining
 
 @export var body : CharacterBody2D
 @export var mine_time : float = 0.6
-@export var step_height : float = GridUtils.TILE_SIZE
+@export var step_height : int = 1:
+	set(value):
+		step_height = value
+		step_height_px = GridUtils.to_px(value)
+var step_height_px : float = GridUtils.TILE_SIZE
 
 var tile_map : TileMapLayer
 var is_mining : bool = false
@@ -16,6 +20,7 @@ var start_y : float = 0.0
 
 func setup():
 	body.modulate = Color.DARK_SLATE_GRAY
+	step_height_px = GridUtils.to_px(step_height)
 	is_mining = true
 	is_descending = false
 	mine_timer = 0.0
@@ -31,7 +36,7 @@ func execute(delta: float):
 		
 		var distance_traveled = abs(body.global_position.y - start_y)
 		
-		if distance_traveled >= (step_height - 0.5):
+		if distance_traveled >= (step_height_px - 0.5):
 			_finalize_step()
 		return
 
@@ -45,7 +50,7 @@ func _try_dig_down():
 	# Limpa uma área de 16px de largura (2 tiles) abaixo dos pés
 	# Usamos offset_x de -4 e 4 para pegar os dois tiles centrais sob o boneco
 	for x_offset in [-4, 4]:
-		for y_offset in GridUtils.get_step_offsets(step_height):
+		for y_offset in GridUtils.get_step_offsets(step_height_px):
 			var target_pos = body.global_position + Vector2(x_offset, y_offset)
 			var map_pos = tile_map.local_to_map(tile_map.to_local(target_pos))
 			tile_map.set_cell(map_pos, -1)
@@ -58,7 +63,7 @@ func _finalize_step():
 	is_descending = false
 	
 	# Snap exato no Y para manter o alinhamento de 8px
-	body.global_position.y = start_y + step_height
+	body.global_position.y = start_y + step_height_px
 	
 	# Checa se ainda há chão para cavar
 	if _has_ground_below():

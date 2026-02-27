@@ -4,14 +4,14 @@ signal finished_building
 
 @export var body : CharacterBody2D
 @export var walker_component : WalkerComponent
-@export var brick_data : BuilderBrickData 
 @export var ray_cast_down_right : RayCast2D
 @export var ray_cast_down_left : RayCast2D
+@export var platform_data : BuilderPlatformData
 
-@onready var raycast_component: RaycastComponent = $"../RaycastComponent"
+@onready var raycast_component: RaycastComponent = %RaycastComponent
 
 var tile_map : TileMapLayer
-var bricks_left : int = 0
+var platforms_left : int = 0
 var build_timer : float = 0.0
 var is_building : bool = false
 
@@ -20,13 +20,15 @@ var is_walking_to_pos : bool = false
 var start_x : float = 0.0
 var initial_direction : int = 0
 
+
 func setup():
 	body.modulate = Color.ORANGE
-	bricks_left = brick_data.max_bricks
+	platforms_left = int(platform_data.max_platforms * (platform_data.platform_size))
 	is_building = false
 	is_walking_to_pos = false
 	build_timer = 0.0
 	tile_map = get_tree().get_first_node_in_group("level_tilemap")
+
 
 func execute(delta: float):
 	if not body or not tile_map: return
@@ -44,7 +46,7 @@ func execute(delta: float):
 			return
 
 		# If it walked 16px,
-		if distance_traveled >= 15.5:
+		if distance_traveled >= ((platform_data.platform_size * GridUtils.TILE_SIZE) - 0.5):
 			_finalize_step()
 		return
 
@@ -56,11 +58,11 @@ func execute(delta: float):
 			is_building = true
 			initial_direction = walker_component.direction
 			body.velocity = Vector2.ZERO
-			
+
 	# Building phase
 	else:
 		build_timer += delta
-		if build_timer >= brick_data.build_time:
+		if build_timer >= platform_data.build_time:
 			build_timer = 0.0
 			_try_place_platform()
 
@@ -73,35 +75,27 @@ func _is_at_edge() -> bool:
 
 
 func _try_place_platform():
-	# Calculate platforms position - 8px grid
-	var p1 = body.global_position + Vector2(initial_direction * 8, 4)
-	var p2 = body.global_position + Vector2(initial_direction * 16, 4)
+	var empty_slots = GridUtils.get_step_offsets((platform_data.platform_size * GridUtils.TILE_SIZE)).map(
+		func(offset): 
+			var global_p = body.global_position + Vector2(initial_direction * offset, 4)
+			return tile_map.local_to_map(tile_map.to_local(global_p))
+	).filter(
+		func(map_pos): return tile_map.get_cell_source_id(map_pos) == -1
+	)
 
-	var m1 = tile_map.local_to_map(tile_map.to_local(p1))
-	var m2 = tile_map.local_to_map(tile_map.to_local(p2))
-
-	# Checks if any positions are available
-	var first_pos = tile_map.get_cell_source_id(m1) != -1
-	var second_pos = tile_map.get_cell_source_id(m2) != -1
-	var free_positions_qty = [first_pos, second_pos].filter(func(e): return not e).size()
-
-	# Finish if both positions are ocupied
-	if first_pos and second_pos:
+	# Finish if there's no empty_slots to place a platform
+	if empty_slots.is_empty():
 		return _finish_building()
 
-	# Finish if there's not enought bricks left
-	if bricks_left < free_positions_qty:
+	# Finish if there's not enough platforms
+	if platforms_left < empty_slots.size():
 		return _finish_building()
 
+	# Place platforms
+	for map_pos in empty_slots:
+		tile_map.set_cell(map_pos, platform_data.source_id, platform_data.atlas_coords)
+		platforms_left -= 1
 
-
-	# Place platform
-	if (not first_pos): tile_map.set_cell(m1, brick_data.source_id, brick_data.atlas_coords)
-	if (not second_pos): tile_map.set_cell(m2, brick_data.source_id, brick_data.atlas_coords)
-	
-	bricks_left -= free_positions_qty
-
-	# Go back to natural movement
 	start_x = body.global_position.x
 	is_walking_to_pos = true
 
@@ -109,12 +103,12 @@ func _try_place_platform():
 func _finalize_step():
 	is_walking_to_pos = false
 	
-	# 16px SNAPPING
-	body.global_position.x = start_x + (initial_direction * 16)
+	# Snap to the end of the platform
+	body.global_position.x = start_x + (initial_direction * (platform_data.platform_size * GridUtils.TILE_SIZE))
 	body.velocity.x = 0
 	
-	# If no bricks left or not ad edge, finish_building
-	if bricks_left <= 0 or not _is_at_edge():
+	# If no platforms left or not at an edge, finish_building
+	if platforms_left <= 0 or not _is_at_edge():
 		walker_component.update_direction(-initial_direction)
 		_finish_building()
 

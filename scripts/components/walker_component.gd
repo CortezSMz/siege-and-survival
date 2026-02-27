@@ -46,10 +46,6 @@ func execute(delta: float) -> void:
 		body.velocity.x = move_toward(body.velocity.x, 0, 2.5)
 
 
-func stop_action() -> void:
-	is_stepping_up = false
-
-
 func update_direction(new_direction: int) -> void:
 	direction = new_direction
 
@@ -69,10 +65,14 @@ func apply_step_up() -> void:
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.set_ease(Tween.EASE_OUT)
 	
-	var target_pos = body.global_position + Vector2(direction * 4, -8)
+	var target_pos = body.global_position + Vector2(direction * (GridUtils.TILE_SIZE / 2), -GridUtils.TILE_SIZE)
 	
 	tween.tween_property(body, "global_position", target_pos, 0.1)
 	
 	tween.finished.connect(func():
 		is_stepping_up = false
 	)
+
+
+func stop_action() -> void:
+	is_stepping_up = false

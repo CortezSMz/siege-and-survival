@@ -4,7 +4,12 @@ signal finished_mining
 
 @export var body : CharacterBody2D
 @export var walker_component : WalkerComponent
-@export var mine_time : float = 0.5 
+@export var mine_time : float = 0.5
+@export var column_size : int = 1:
+	set(value):
+		column_size = value
+		column_size_px = GridUtils.to_px(value)
+var column_size_px: float = GridUtils.TILE_SIZE
 
 @onready var raycast_component: RaycastComponent = %RaycastComponent
 
@@ -19,6 +24,7 @@ var initial_direction : int = 0
 
 func setup():
 	body.modulate = Color.BROWN
+	column_size_px = GridUtils.to_px(column_size)
 	is_mining = false
 	is_walking_to_pos = false
 	mine_timer = 0.0
@@ -37,7 +43,7 @@ func execute(delta: float):
 		
 		var distance_traveled = abs(body.global_position.x - start_x)
 		
-		if distance_traveled >= 15.5: 
+		if distance_traveled >= (column_size_px - 0.5):
 			_finalize_step()
 		return
 
@@ -51,7 +57,7 @@ func execute(delta: float):
 			return
 			
 		walker_component.execute(delta)
-		
+
 	# Mining phase
 	else:
 		mine_timer += delta
@@ -62,11 +68,10 @@ func execute(delta: float):
 
 func _try_dig():
 	var dir = initial_direction
-	
-	# Clear 2 columns ahead
-	for offset_x in [8, 16]:
-		for offset_y in range(-2, 2): 
-			var target_pos = body.global_position + Vector2(dir * offset_x, (offset_y * 8) - 12)
+
+	for offset_x in GridUtils.get_step_offsets(column_size_px):
+		for offset_y in range(-2, 2):
+			var target_pos = body.global_position + Vector2(dir * offset_x, (offset_y * GridUtils.TILE_SIZE) - 12.0)
 			var map_pos = tile_map.local_to_map(tile_map.to_local(target_pos))
 			tile_map.set_cell(map_pos, -1)
 
@@ -78,7 +83,7 @@ func _try_dig():
 func _finalize_step():
 	is_walking_to_pos = false
 
-	body.global_position.x = start_x + (initial_direction * 16)
+	body.global_position.x = start_x + (initial_direction * column_size_px)
 	body.velocity.x = 0
 	
 	# Check if there's walls left to mine, else finish mining

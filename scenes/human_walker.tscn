@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bjpfimpfkurxj" path="res://scenes/components/builder_sides_component.tscn" id="10_cxa03"]
 [ext_resource type="PackedScene" uid="uid://ntknpcqxcq42" path="res://scenes/components/miner_sides_component.tscn" id="10_kr46j"]
 [ext_resource type="PackedScene" uid="uid://nnlsveo5n6jk" path="res://scenes/components/miner_down_component.tscn" id="11_iams2"]
-[ext_resource type="Script" uid="uid://5pkjlmwen7vp" path="res://resources/BuilderBrickData.gd" id="11_tfgdc"]
+[ext_resource type="Script" uid="uid://5pkjlmwen7vp" path="res://resources/BuilderPlatformData.gd" id="11_tfgdc"]
 [ext_resource type="PackedScene" uid="uid://du3ww0s8lv35i" path="res://scenes/components/exploder_component.tscn" id="12_b811a"]
 [ext_resource type="Script" uid="uid://bnojtrkw1dyj4" path="res://resources/ExploderData.gd" id="13_kr46j"]
 
@@ -493,7 +493,7 @@ states/walk/node = SubResource("AnimationNodeBlendSpace1D_g2rux")
 states/walk/position = Vector2(454, 173)
 transitions = ["Start", "walk", SubResource("AnimationNodeStateMachineTransition_fd2p4")]
 
-[sub_resource type="Resource" id="Resource_b811a"]
+[sub_resource type="Resource" id="Resource_uvhwt"]
 script = ExtResource("11_tfgdc")
 atlas_coords = Vector2i(5, 60)
 source_id = 1
@@ -579,9 +579,9 @@ body = NodePath("..")
 unique_name_in_owner = true
 body = NodePath("..")
 walker_component = NodePath("../WalkerComponent")
-brick_data = SubResource("Resource_b811a")
 ray_cast_down_right = NodePath("../RaycastComponent/RayCastDownRight")
 ray_cast_down_left = NodePath("../RaycastComponent/RayCastDownLeft")
+platform_data = SubResource("Resource_uvhwt")
 
 [node name="ExploderComponent" parent="." unique_id=2028305549 node_paths=PackedStringArray("body", "walker_component", "head_label") instance=ExtResource("12_b811a")]
 unique_name_in_owner = true

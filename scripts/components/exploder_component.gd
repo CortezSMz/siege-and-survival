@@ -53,7 +53,7 @@ func _destroy_tiles_in_radius():
 	var local_pos = tile_map.to_local(center_global)
 	var center_cell = tile_map.local_to_map(local_pos)
 	
-	var r = int(exploder_data.explosion_radius / 8.0) + 1
+	var r = exploder_data.explosion_radius + 1
 
 	for x in range(-r, r + 1):
 		for y in range(-r, r + 1):

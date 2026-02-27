@@ -60,9 +60,9 @@ func _finish_climb() -> void:
 	is_climbing = false
 	body.velocity = Vector2.ZERO
 	
-	body.global_position.y = snapped(body.global_position.y, 8) - 1
+	body.global_position.y = snapped(body.global_position.y, GridUtils.TILE_SIZE) - 1
 
-	var target_x = body.global_position.x + (walker_component.direction * 8)
+	var target_x = body.global_position.x + (walker_component.direction * GridUtils.TILE_SIZE)
 	
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_SINE)
