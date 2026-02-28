@@ -34,7 +34,7 @@ func _ready() -> void:
 	%ToggleCollisions.set_pressed_no_signal(debug_collisions_enabled)
 
 	%ToggleGrid.set_pressed_no_signal(debug_grid_enabled)
-	var grid = get_tree().get_first_node_in_group("debug_grid")
+	var grid = %DebugGrid
 	if grid: grid.visible = debug_grid_enabled
 
 	%ToggleShowStates.set_pressed_no_signal(debug_show_states_enabled)
@@ -97,7 +97,7 @@ func _update_tile_inspector() -> void:
 		%LblTileCoords.text = str(cell)
 
 func _on_toggle_grid_toggled(toggled_on: bool) -> void:
-	var grid = get_tree().get_first_node_in_group("debug_grid")
+	var grid = %DebugGrid
 	if grid: grid.visible = toggled_on
 	debug_grid_enabled = toggled_on
 

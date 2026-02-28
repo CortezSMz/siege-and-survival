@@ -13,7 +13,7 @@ var column_size_px: float = GridUtils.TILE_SIZE
 
 @onready var raycast_component: RaycastComponent = %RaycastComponent
 
-var tile_map : TileMapLayer
+var tile_maps : Array = []
 var is_mining : bool = false
 var mine_timer : float = 0.0
 
@@ -28,11 +28,11 @@ func setup():
 	is_mining = false
 	is_walking_to_pos = false
 	mine_timer = 0.0
-	tile_map = get_tree().get_first_node_in_group("level_tilemap")
+	tile_maps = get_tree().get_nodes_in_group("destructible_tilemap")
 
 
 func execute(delta: float):
-	if not body or not tile_map: return
+	if not body or tile_maps.is_empty(): return
 
 	# Natural movement
 	if is_walking_to_pos:
@@ -69,11 +69,13 @@ func execute(delta: float):
 func _try_dig():
 	var dir = initial_direction
 
-	for offset_x in GridUtils.get_step_offsets(column_size_px):
-		for offset_y in range(-2, 2):
-			var target_pos = body.global_position + Vector2(dir * offset_x, (offset_y * GridUtils.TILE_SIZE) - 12.0)
-			var map_pos = tile_map.local_to_map(tile_map.to_local(target_pos))
-			tile_map.set_cell(map_pos, -1)
+	for tm in tile_maps:
+		if not tm is TileMapLayer: continue
+		for offset_x in GridUtils.get_step_offsets(column_size_px):
+			for offset_y in range(-2, 2):
+				var target_pos = body.global_position + Vector2(dir * offset_x, (offset_y * GridUtils.TILE_SIZE) - 12.0)
+				var map_pos = tm.local_to_map(tm.to_local(target_pos))
+				tm.set_cell(map_pos, -1)
 
 	start_x = body.global_position.x
 	is_walking_to_pos = true

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dywikw5nj10s7"]
+
+[ext_resource type="Script" uid="uid://cfoo82dl3818w" path="res://scripts/components/builder_diag_up_component.gd" id="1_6j48s"]
+
+[node name="BuilderDiagUpComponent" type="Node" unique_id=546022156]
+script = ExtResource("1_6j48s")

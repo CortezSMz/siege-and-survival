@@ -10,7 +10,7 @@ signal finished_mining
 		step_height_px = GridUtils.to_px(value)
 var step_height_px : float = GridUtils.TILE_SIZE
 
-var tile_map : TileMapLayer
+var tile_maps : Array = []
 var is_mining : bool = false
 var mine_timer : float = 0.0
 
@@ -25,60 +25,57 @@ func setup():
 	is_descending = false
 	mine_timer = 0.0
 	body.velocity = Vector2.ZERO
-	tile_map = get_tree().get_first_node_in_group("level_tilemap")
+	tile_maps = get_tree().get_nodes_in_group("destructible_tilemap")
 
 func execute(delta: float):
-	if not body or not tile_map: return
+	if not body or tile_maps.is_empty(): return
 
-	# 1. Movimento Natural (Descendo os 16px)
+	# Natural movement
 	if is_descending:
-		body.global_position.y += 60 * delta # Velocidade de descida
-		
+		body.global_position.y += 60 * delta
+
 		var distance_traveled = abs(body.global_position.y - start_y)
-		
+
 		if distance_traveled >= (step_height_px - 0.5):
 			_finalize_step()
 		return
 
-	# 2. Fase de Mineração (Esperando o "timer" da picareta)
+	# Mining phase
 	mine_timer += delta
 	if mine_timer >= mine_time:
 		mine_timer = 0.0
 		_try_dig_down()
 
 func _try_dig_down():
-	# Limpa uma área de 16px de largura (2 tiles) abaixo dos pés
-	# Usamos offset_x de -4 e 4 para pegar os dois tiles centrais sob o boneco
-	for x_offset in [-4, 4]:
-		for y_offset in GridUtils.get_step_offsets(step_height_px):
-			var target_pos = body.global_position + Vector2(x_offset, y_offset)
-			var map_pos = tile_map.local_to_map(tile_map.to_local(target_pos))
-			tile_map.set_cell(map_pos, -1)
+	for tm in tile_maps:
+		if not tm is TileMapLayer: continue
+		for x_offset in [-4, 4]:
+			for y_offset in GridUtils.get_step_offsets(step_height_px):
+				var target_pos = body.global_position + Vector2(x_offset, y_offset)
+				var map_pos = tm.local_to_map(tm.to_local(target_pos))
+				tm.set_cell(map_pos, -1)
 
-	# Inicia a descida para o próximo nível
 	start_y = body.global_position.y
 	is_descending = true
 
 func _finalize_step():
 	is_descending = false
 	
-	# Snap exato no Y para manter o alinhamento de 8px
 	body.global_position.y = start_y + step_height_px
 	
-	# Checa se ainda há chão para cavar
 	if _has_ground_below():
 		is_mining = true
 	else:
-		# Se cavou e caiu no "céu" (vazio), termina a ação
 		_finish_mining()
 
 func _has_ground_below() -> bool:
-	# Checa se há qualquer tile nos próximos 8px abaixo
-	for x_offset in [-4, 4]:
-		var target_pos = body.global_position + Vector2(x_offset, GridUtils.TILE_SIZE)
-		var map_pos = tile_map.local_to_map(tile_map.to_local(target_pos))
-		if tile_map.get_cell_source_id(map_pos) != -1:
-			return true
+	for tm in tile_maps:
+		if not tm is TileMapLayer: continue
+		for x_offset in [-4, 4]:
+			var target_pos = body.global_position + Vector2(x_offset, GridUtils.TILE_SIZE)
+			var map_pos = tm.local_to_map(tm.to_local(target_pos))
+			if tm.get_cell_source_id(map_pos) != -1:
+				return true
 	return false
 
 func _finish_mining():

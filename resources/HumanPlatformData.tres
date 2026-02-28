@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BuilderPlatformData" format=3 uid="uid://bw520i5mvojsp"]
+
+[ext_resource type="Script" uid="uid://5pkjlmwen7vp" path="res://resources/BuilderPlatformData.gd" id="1_anbgg"]
+
+[resource]
+script = ExtResource("1_anbgg")
+atlas_coords = Vector2i(5, 60)
+source_id = 1
+metadata/_custom_type_script = "uid://5pkjlmwen7vp"

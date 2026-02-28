@@ -26,7 +26,7 @@ func execute(delta: float):
 
 func stop_action():
 	body.modulate = Color.WHITE
-	
+
 	body.set_collision_layer_value(3, false)
-	
+
 	finished_blocking.emit()

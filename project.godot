@@ -22,14 +22,24 @@ gdscript/warnings/unused_parameter=0
 [display]
 
 window/size/always_on_top=true
+window/vsync/vsync_mode=0
 
 [global_group]
 
 level_tilemap=""
+construction_tilemap=""
+destructible_tilemap=""
 
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
+
+[layer_names]
+
+2d_physics/layer_1="world"
+2d_physics/layer_2="walkers"
+2d_physics/layer_3="blockers"
+2d_physics/layer_4="buildings"
 
 [physics]
 

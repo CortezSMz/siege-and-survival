@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://duscbmc61dxhx"]
+
+[ext_resource type="Script" uid="uid://b8sw3pmqxmk6r" path="res://scripts/components/miner_diag_up_component.gd" id="1_mdu01"]
+
+[node name="MinerDiagUpComponent" type="Node" unique_id=1957729232]
+script = ExtResource("1_mdu01")

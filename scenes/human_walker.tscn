@@ -16,6 +16,8 @@
 [ext_resource type="Script" uid="uid://5pkjlmwen7vp" path="res://resources/BuilderPlatformData.gd" id="11_tfgdc"]
 [ext_resource type="PackedScene" uid="uid://du3ww0s8lv35i" path="res://scenes/components/exploder_component.tscn" id="12_b811a"]
 [ext_resource type="Script" uid="uid://bnojtrkw1dyj4" path="res://resources/ExploderData.gd" id="13_kr46j"]
+[ext_resource type="PackedScene" uid="uid://dywikw5nj10s7" path="res://scenes/components/builder_diag_up_component.tscn" id="14_uvhwt"]
+[ext_resource type="PackedScene" uid="uid://duscbmc61dxhx" path="res://scenes/components/miner_diag_up_component.tscn" id="17_mdu01"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_trceg"]
 atlas = ExtResource("1_mayv3")
@@ -499,6 +501,14 @@ atlas_coords = Vector2i(5, 60)
 source_id = 1
 metadata/_custom_type_script = "uid://5pkjlmwen7vp"
 
+[sub_resource type="Resource" id="Resource_si16r"]
+script = ExtResource("11_tfgdc")
+atlas_coords = Vector2i(5, 60)
+source_id = 1
+build_time = 0.25
+max_platforms = 12
+metadata/_custom_type_script = "uid://5pkjlmwen7vp"
+
 [sub_resource type="Resource" id="Resource_iams2"]
 script = ExtResource("13_kr46j")
 metadata/_custom_type_script = "uid://bnojtrkw1dyj4"
@@ -506,6 +516,7 @@ metadata/_custom_type_script = "uid://bnojtrkw1dyj4"
 [node name="HumanWalker" type="CharacterBody2D" unique_id=2067324447]
 z_index = 5
 collision_layer = 2
+collision_mask = 13
 input_pickable = true
 script = ExtResource("1_g2rux")
 
@@ -583,12 +594,23 @@ ray_cast_down_right = NodePath("../RaycastComponent/RayCastDownRight")
 ray_cast_down_left = NodePath("../RaycastComponent/RayCastDownLeft")
 platform_data = SubResource("Resource_uvhwt")
 
+[node name="BuilderDiagUpComponent" parent="." unique_id=546022156 node_paths=PackedStringArray("body", "walker_component") instance=ExtResource("14_uvhwt")]
+unique_name_in_owner = true
+body = NodePath("..")
+walker_component = NodePath("../WalkerComponent")
+platform_data = SubResource("Resource_si16r")
+
 [node name="ExploderComponent" parent="." unique_id=2028305549 node_paths=PackedStringArray("body", "walker_component", "head_label") instance=ExtResource("12_b811a")]
 unique_name_in_owner = true
 body = NodePath("..")
 walker_component = NodePath("../WalkerComponent")
 exploder_data = SubResource("Resource_iams2")
 head_label = NodePath("../Label")
+
+[node name="MinerDiagUpComponent" parent="." unique_id=1957729232 node_paths=PackedStringArray("body", "walker_component") instance=ExtResource("17_mdu01")]
+unique_name_in_owner = true
+body = NodePath("..")
+walker_component = NodePath("../WalkerComponent")
 
 [node name="RaycastComponent" parent="." unique_id=1206438048 node_paths=PackedStringArray("rc_top", "rc_head_right", "rc_head_left", "rc_torso_right", "rc_torso_left", "rc_right", "rc_left", "rc_knee_right", "rc_knee_left", "rc_feet_right", "rc_feet_left", "rc_down_right", "rc_down_left") instance=ExtResource("7_owd54")]
 unique_name_in_owner = true
@@ -652,35 +674,35 @@ collision_mask = 5
 unique_name_in_owner = true
 position = Vector2(0, -4)
 target_position = Vector2(6, 0)
-collision_mask = 5
+collision_mask = 13
 
 [node name="RayCastKneeLeft" type="RayCast2D" parent="RaycastComponent" unique_id=418200492]
 unique_name_in_owner = true
 position = Vector2(0, -4)
 target_position = Vector2(-6, 0)
-collision_mask = 5
+collision_mask = 13
 
 [node name="RayCastFeetRight" type="RayCast2D" parent="RaycastComponent" unique_id=1759822335]
 unique_name_in_owner = true
 target_position = Vector2(6, 0)
-collision_mask = 5
+collision_mask = 13
 
 [node name="RayCastFeetLeft" type="RayCast2D" parent="RaycastComponent" unique_id=1525911087]
 unique_name_in_owner = true
 target_position = Vector2(-6, 0)
-collision_mask = 5
+collision_mask = 13
 
 [node name="RayCastDownRight" type="RayCast2D" parent="RaycastComponent" unique_id=1392389258]
 unique_name_in_owner = true
 position = Vector2(6, -2)
 target_position = Vector2(0, 12)
-collision_mask = 5
+collision_mask = 13
 
 [node name="RayCastDownLeft" type="RayCast2D" parent="RaycastComponent" unique_id=662098050]
 unique_name_in_owner = true
 position = Vector2(-6, -2)
 target_position = Vector2(0, 12)
-collision_mask = 5
+collision_mask = 13
 
 [connection signal="finished_blocking" from="BlockerComponent" to="." method="_on_blocker_component_finished_blocking"]
 [connection signal="finished_climbing" from="ClimberComponent" to="." method="_on_climber_component_finished_climbing"]
@@ -688,3 +710,4 @@ collision_mask = 5
 [connection signal="finished_mining" from="MinerSidesComponent" to="." method="_on_miner_sides_component_finished_mining"]
 [connection signal="finished_mining" from="MinerDownComponent" to="." method="_on_miner_down_component_finished_mining"]
 [connection signal="finished_building" from="BuilderSidesComponent" to="." method="_on_builder_sides_component_finished_building"]
+[connection signal="finished_building" from="BuilderDiagUpComponent" to="." method="_on_builder_diag_up_component_finished_building"]

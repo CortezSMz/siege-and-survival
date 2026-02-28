@@ -1,11 +1,9 @@
-class_name BuilderSidesComponent extends Node
+class_name BuilderDiagUpComponent extends Node
 
 signal finished_building
 
 @export var body : CharacterBody2D
 @export var walker_component : WalkerComponent
-@export var ray_cast_down_right : RayCast2D
-@export var ray_cast_down_left : RayCast2D
 @export var platform_data : BuilderPlatformData
 
 @onready var raycast_component: RaycastComponent = %RaycastComponent
@@ -18,106 +16,112 @@ var is_building : bool = false
 # Natural movement control
 var is_walking_to_pos : bool = false
 var start_x : float = 0.0
+var start_y : float = 0.0
 var initial_direction : int = 0
 
-
 func setup():
-	body.modulate = Color.ORANGE
-	platforms_left = int(platform_data.max_platforms * (platform_data.platform_size))
-	is_building = false
+	body.modulate = Color.YELLOW 
+	
+	platforms_left = int(platform_data.max_platforms * platform_data.platform_size)
+	is_building = true 
+	initial_direction = walker_component.direction
+	
 	is_walking_to_pos = false
 	build_timer = 0.0
 	tile_map = get_tree().get_first_node_in_group("construction_tilemap")
 
-
+var step = 1
 func execute(delta: float):
 	if not body or not tile_map: return
 
-	# Building and natural movement - walker_component assumes movement for a while
+	# Natural movement
 	if is_walking_to_pos:
-		walker_component.execute(delta)
-
-		# Distance travaled since last platform
-		var distance_traveled = abs(body.global_position.x - start_x)
-
-		# Stop if it hits an obstacle and changes direction
 		if walker_component.direction != initial_direction:
 			_finish_building()
 			return
 
-		# If it walked 16px,
+		walker_component.execute(delta)
+
+		var distance_traveled = abs(body.global_position.x - start_x)
+		
 		if distance_traveled >= ((platform_data.platform_size * GridUtils.TILE_SIZE) - 0.5):
 			_finalize_step()
+			step+=1
 		return
 
 	# Searching for edge phase
 	if not is_building:
 		walker_component.execute(delta)
 		
-		if _is_at_edge():
+		if body.is_on_floor():
 			is_building = true
 			initial_direction = walker_component.direction
 			body.velocity = Vector2.ZERO
-
-	# Building phase
 	else:
+		# Building cicle
 		build_timer += delta
 		if build_timer >= platform_data.build_time:
 			build_timer = 0.0
-			_try_place_platform()
+			_try_place_stair_chunk()
 
+func _get_snapped_current_position() -> Vector2:
+	var current_map_pos = tile_map.local_to_map(tile_map.to_local(body.global_position))
+	return tile_map.to_global(tile_map.map_to_local(current_map_pos))
 
-func _is_at_edge() -> bool:
-	var rc_down = ray_cast_down_right if walker_component.direction > 0 else ray_cast_down_left
-	if raycast_component.get_direction(walker_component.direction) != walker_component.direction:
-		return false
-	return not rc_down.is_colliding() and body.is_on_floor()
-
-
-func _try_place_platform():
-	var empty_slots = GridUtils.get_step_offsets((platform_data.platform_size * GridUtils.TILE_SIZE)).map(
+func _try_place_stair_chunk():
+	body.global_position = _get_snapped_current_position()
+	
+	var total_px = platform_data.platform_size * GridUtils.TILE_SIZE
+	var offsets = GridUtils.get_step_offsets(total_px)
+	var fixed_y_offset = -GridUtils.TILE_SIZE + 4
+	
+	var empty_slots = offsets.map(
 		func(offset): 
-			var global_p = body.global_position + Vector2(initial_direction * offset, 4)
+			var global_p = body.global_position + Vector2(initial_direction * offset, fixed_y_offset)
 			return tile_map.local_to_map(tile_map.to_local(global_p))
 	).filter(
 		func(map_pos): return tile_map.get_cell_source_id(map_pos) == -1
 	)
 
-	# Finish if there's no empty_slots to place a platform
 	if empty_slots.is_empty():
-		return _finish_building()
+		start_x = body.global_position.x
+		start_y = body.global_position.y
+		is_walking_to_pos = true
+		return
 
-	# Finish if there's not enough platforms
 	if platforms_left < empty_slots.size():
 		return _finish_building()
 
-	# Place platforms
 	for map_pos in empty_slots:
 		tile_map.set_cell(map_pos, platform_data.source_id, platform_data.atlas_coords)
 		platforms_left -= 1
 
+	# Save initial position
 	start_x = body.global_position.x
+	start_y = body.global_position.y
 	is_walking_to_pos = true
 
 
 func _finalize_step():
 	is_walking_to_pos = false
 	
-	# Snap to the end of the platform
-	body.global_position.x = start_x + (initial_direction * (platform_data.platform_size * GridUtils.TILE_SIZE))
-	body.velocity.x = 0
+	var target_y = start_y - GridUtils.TILE_SIZE
+	var target_x = start_x + (initial_direction * (platform_data.platform_size * GridUtils.TILE_SIZE))
 	
-	# If no platforms left or not at an edge, finish_building
-	if platforms_left <= 0 or not _is_at_edge():
-		walker_component.update_direction(-initial_direction)
+	var final_y = target_y + (4.1)
+	var map_pos = tile_map.local_to_map(tile_map.to_local(Vector2(target_x, target_y + 2)))
+	var snapped_x = tile_map.to_global(tile_map.map_to_local(map_pos)).x
+	
+	body.global_position = Vector2(snapped_x, final_y)
+	body.velocity = Vector2.ZERO 
+	
+	if platforms_left <= 0:
 		_finish_building()
-
 
 func _finish_building():
 	is_building = false
 	is_walking_to_pos = false
 	finished_building.emit()
-
 
 func stop_action():
 	is_building = false
